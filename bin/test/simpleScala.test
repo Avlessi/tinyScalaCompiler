@@ -1,0 +1,4 @@
+Foo().add(0)
+class Foo(i: Integer) {
+	add(j: Integer): Integer = i + j
+}
