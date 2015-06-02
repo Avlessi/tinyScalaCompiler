@@ -1,0 +1,2 @@
+Foo().add(0)
+class Foo(i: Integer) { } 

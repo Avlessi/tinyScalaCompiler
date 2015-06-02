@@ -14,6 +14,10 @@ public class Exprs extends AST{
 
 		}
 	}
+	
+	public void addExpr(Expr expr) {
+		exprs.add(expr);
+	}
 
 	@Override
 	public String toString() {
@@ -32,8 +36,8 @@ public class Exprs extends AST{
 		StringBuilder lineBuilder = new StringBuilder();
 		for(Expr expr: exprs) {
 			lineBuilder.append(expr.genC(0));
-			lineBuilder.append(" ");
-		}
-		return lineBuilder.toString();
+			lineBuilder.append(",");
+		}		
+		return lineBuilder.substring(0, lineBuilder.length() - 1); // delete comma
 	}
 }

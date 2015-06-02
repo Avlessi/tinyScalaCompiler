@@ -15,8 +15,7 @@ public class Variable extends Expr {
 
 	@Override
 	public String genC(int d) {
-		// TODO Auto-generated method stub
-		return null;
+		return id.toString();
 	}
 	
 }

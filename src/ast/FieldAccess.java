@@ -24,7 +24,7 @@ public class FieldAccess extends Expr {
 
 	@Override
 	public String genC(int d) {
-		return expr.genC(0);
+		return expr.genC(0) + "->" + id;		
 	}
 
 }

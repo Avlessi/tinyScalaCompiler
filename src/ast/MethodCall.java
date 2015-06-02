@@ -1,9 +1,12 @@
 package ast;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class MethodCall extends Expr {
 	
-	private Expr expr;
-	private Id id;
+	private Expr expr; // in fact, it is class name with eventual parameters, for example Foo()
+	private Id methodId;
 	private Exprs exprs;
 	
 	
@@ -11,7 +14,7 @@ public class MethodCall extends Expr {
 	public MethodCall(Expr expr, Id id, Exprs exprs) {
 		super();
 		this.expr = expr;
-		this.id = id;
+		this.methodId = id;
 		this.exprs = exprs;
 	}
 	
@@ -22,13 +25,30 @@ public class MethodCall extends Expr {
 
 	@Override
 	public String toString() {
-		return expr.toString()+"."+id+"("+((this.exprs!=null)?exprs.toString():"")+")";
+		
+		//add to exprs constrCall
+		return expr.toString()+"."+methodId+"("+((this.exprs!=null) ? exprs.toString() : "")+")";
 	}
 
 	@Override
 	public String genC(int d) {
-		// TODO Auto-generated method stub
-		return null;
+		//TODO what about expr.genC()  ?
+		ConstrCall c = (ConstrCall) this.expr;
+				
+		if (this.exprs == null) 
+		{
+			List<Expr> exprList = new ArrayList<Expr>();	
+			exprList.add(c);
+			this.exprs = new Exprs(exprList);
+		}
+		else
+			this.exprs.addExpr(c);
+//		
+////		if(this.exprs != null) {
+////			this.exprs.addExpr(c);
+////		}
+		
+		return c.getClassId() + "_" + methodId + "(" + ((exprs != null) ? exprs.genC(0) : "") + ")";
 	}
 
 }

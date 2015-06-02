@@ -19,6 +19,22 @@ public class Method extends AST {
 	public Method(Id id, ClassId classId, Expr expr){
 		this(id, null, classId, expr);
 	}
+	
+	public Id getId() {
+		return id;
+	}
+	
+	public ClassId getClassId() {
+		return classId;
+	}
+	
+	public Expr getExpr() {
+		return this.expr;
+	}
+	
+	public Params getParams() {
+		return this.params;
+	}
 
 	@Override
 	public String toString() {

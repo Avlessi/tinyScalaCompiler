@@ -98,6 +98,7 @@ public class TScala0ASTVisitor extends TScala0BaseVisitor<AST> {
 	
 	@Override
 	public AST visitExprs(@NotNull TScala0Parser.ExprsContext ctx){
+		System.out.println("visit Exprs");
 		List<TScala0Parser.ExprContext> exprCtxts = (List<TScala0Parser.ExprContext>) ctx.expr(); 
 		List<Expr> exprs = new ArrayList<Expr>();
 		for(TScala0Parser.ExprContext exprCtxt : exprCtxts){
@@ -120,7 +121,7 @@ public class TScala0ASTVisitor extends TScala0BaseVisitor<AST> {
 	}
 	
 	@Override
-	public AST visitParam(@NotNull TScala0Parser.ParamContext ctx){
+	public AST visitParam(@NotNull TScala0Parser.ParamContext ctx) {
 		System.out.println("visit Param");
 		Id id = new Id(ctx.ID().getText());
 		ClassId classId = new ClassId(ctx.CLASSID().getText());
@@ -128,8 +129,10 @@ public class TScala0ASTVisitor extends TScala0BaseVisitor<AST> {
 	}
 	
 	@Override
-	public AST visitParams(@NotNull TScala0Parser.ParamsContext ctx){
+	public AST visitParams(@NotNull TScala0Parser.ParamsContext ctx) {
 		System.out.println("visit Params");
+		boolean isForConstr = (ctx.parent instanceof TScala0Parser.TclassContext) ? true : false;
+		
 		List<TScala0Parser.ParamContext> paramCtxts = ctx.param();
 		List<Param> params = new ArrayList<Param>();
 		for(TScala0Parser.ParamContext paramCtxt:paramCtxts){
@@ -155,9 +158,10 @@ public class TScala0ASTVisitor extends TScala0BaseVisitor<AST> {
 
 	@Override
 	public AST visitMethodCall(@NotNull TScala0Parser.MethodCallContext ctx) {
-		System.out.println("visit MethodCall");
+		System.out.println("visit MethodCall");				
 		Expr expr = (Expr) visit(ctx.expr());
 		Id id = new Id(ctx.ID().getText());
+		System.out.println("method id = " + id);
 		Exprs exprs = ((ctx.exprs()!=null)?(Exprs) visit(ctx.exprs()):null);
 		return new MethodCall(expr, id, exprs);
 	}
@@ -165,9 +169,19 @@ public class TScala0ASTVisitor extends TScala0BaseVisitor<AST> {
 	@Override
 	public AST visitConstrCall(@NotNull TScala0Parser.ConstrCallContext ctx) {
 		System.out.println("visit ConstrCall");
-		ClassId classId = new ClassId(ctx.getText());
-		Exprs exprs = (Exprs) visit(ctx.exprs());
+		ClassId classId = new ClassId(ctx.CLASSID().getText());
+		System.out.println("in constrCall classId = " + classId);		
+		Exprs exprs = null;
+		if(ctx.exprs() != null)
+			exprs = (Exprs) visit(ctx.exprs());		
 		return new ConstrCall(classId, exprs);
+	}
+	
+	@Override 
+	public AST visitLocalMethodCall(@NotNull TScala0Parser.LocalMethodCallContext ctx) { 
+		System.out.println("visit LocalMethodCall");
+		System.out.println("retourne null. TO FIX!!!");
+		return null; 
 	}
 	
 }

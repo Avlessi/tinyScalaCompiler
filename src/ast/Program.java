@@ -34,7 +34,7 @@ public class Program extends AST {
 		for(Tclass tclass: classes) {
 			classDefs += tclass.genC(0);
 		}
-		String exprtemplate = headers + classDefs + " int main() {\n return printf(\"%%i\\n\", %s); 	\n}";
+		String exprtemplate = headers + classDefs + " int main() {\n  printf(\"%%i\\n\", %s);\n  return 0;\n}";
 		String result = String.format(exprtemplate, expr.genC(0));
 		return result;
 	}

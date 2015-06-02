@@ -36,6 +36,10 @@ public class Param extends AST {
 		this.classId = classId;
 	}
 	
+	public Id getId() {
+		return id;
+	}
+	
 	@Override
 	public String genC(int d) {		
 		return this.classId.getCiEquivName() + " " +  this.id;
